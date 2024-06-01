@@ -18,7 +18,6 @@ interface Product {
   company: string;
   discount: number;
   availability: string;
-  // add other relevant fields here
 }
 
 const fetchProducts = async (

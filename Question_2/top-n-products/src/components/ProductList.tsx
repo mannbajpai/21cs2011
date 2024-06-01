@@ -11,6 +11,7 @@ const ProductList: React.FC = () => {
     const fetchProducts = async () => {
       try {
         const params = {
+            company: 'AMZ',
           category: 'Laptop',
           top: 10,
           minPrice: 1,
