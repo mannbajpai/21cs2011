@@ -11,7 +11,7 @@ const apiClient: AxiosInstance = axios.create({
 });
 
 interface Product {
-  id: string;
+  id: number;
   name: string;
   price: number;
   rating: number;
@@ -30,30 +30,13 @@ const fetchProducts = async (
   const url = `/test/companies/${company}/categories/${category}/products`;
   const params = { top, minPrice, maxPrice };
   try {
-    console.log(`Requesting: ${url} with params:`, params);
     const response = await apiClient.get(url, {
       params,
     });
-    console.log(response);
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-const fetchProductDetails = async (
-  company: string,
-  category: string,
-  productId: string
-): Promise<Product> => {
-  try {
-    const response = await apiClient.get(
-      `/test/companies/${company}/categories/${category}/products/${productId}`
-    );
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export { fetchProducts, fetchProductDetails, Product };
+export { fetchProducts, Product };

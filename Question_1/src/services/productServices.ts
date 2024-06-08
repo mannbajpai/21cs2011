@@ -1,4 +1,6 @@
-import { fetchProducts, fetchProductDetails, Product } from '../utils/helper';
+import { fetchProducts, Product } from '../utils/helper';
+
+const productStore: { [key: number]: Product } = {};
 
 const getTopProducts = async (
   company: string,
@@ -12,7 +14,6 @@ const getTopProducts = async (
   try {
     let products = await fetchProducts(company, category, top, minPrice, maxPrice);
 
-    // Sort products if sortBy and sortOrder are provided
     if (sortBy) {
       products = products.sort((a, b) => {
         if (sortOrder === 'desc') {
@@ -22,15 +23,24 @@ const getTopProducts = async (
       });
     }
 
+    products = products.map((product,idx) => {
+      const id = idx + 1;
+      productStore[id] = product;
+      return { ...product, id };
+    });
+
     return products;
   } catch (error) {
     throw error;
   }
 };
 
-const getProductDetails = async (company: string, category: string, productId: string): Promise<Product> => {
+const getProductDetails = async (productId: number): Promise<Product> => {
   try {
-    const product = await fetchProductDetails(company, category, productId);
+    const product = productStore[productId];
+    if (!product) {
+      throw new Error('Product not found');
+    }
     return product;
   } catch (error) {
     throw error;

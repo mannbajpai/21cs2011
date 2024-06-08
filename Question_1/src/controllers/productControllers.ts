@@ -27,10 +27,10 @@ const fetchTopProducts = async (req: Request, res: Response): Promise<void> => {
 };
 
 const fetchProductDetailsById = async (req: Request, res: Response): Promise<void> => {
-  const { companyname, categoryname, productid } = req.params;
-
+  const { productid } = req.params;
+  const id:number = +productid;
   try {
-    const product = await getProductDetails(companyname, categoryname, productid);
+    const product = await getProductDetails(id);
     res.status(200).json(product);
   } catch (error: unknown) {
     if (typeof error === "string") {
